@@ -78,3 +78,12 @@ app.MapControllerRoute(
 app.MapRazorPages(); // <--- For Identity UI
 
 app.Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Application failed to start");
+}
+finally
+{
+    Log.CloseAndFlush();
+}
