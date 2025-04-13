@@ -42,6 +42,7 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: Assignment2-Inventory
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
           package: ./publish_output
 
 
