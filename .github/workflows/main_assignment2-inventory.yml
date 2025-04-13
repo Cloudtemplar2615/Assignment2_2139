@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and Deploy ASP.NET Core to Azure Web App (OIDC)
+name: Deploy with Publish Profile
 
 on:
   push:
@@ -12,31 +12,17 @@ on:
 jobs:
   build-and-deploy:
     runs-on: windows-latest
-    permissions:
-      id-token: write
-      contents: read
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.x'
 
-      - name: Build
-        run: dotnet build Assignment_1_G-92_2139.csproj --configuration Release
+      - run: dotnet build Assignment_1_G-92_2139.csproj --configuration Release
 
-      - name: Publish
-        run: dotnet publish Assignment_1_G-92_2139.csproj --configuration Release --output ./publish_output
-
-      - name: Login to Azure with federated credentials
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_2F695E233C0A4C16993F544599DC8CA7 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_2CC5C430B774F27AF7B29D6E16D16AA }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_2B2260D376F24EB1A2CD68FEE8D38EEE }}
+      - run: dotnet publish Assignment_1_G-92_2139.csproj --configuration Release --output ./publish_output
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
@@ -44,6 +30,7 @@ jobs:
           app-name: Assignment2-Inventory
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
           package: ./publish_output
+
 
 
           
