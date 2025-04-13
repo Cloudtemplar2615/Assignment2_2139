@@ -1,0 +1,44 @@
+@model Assignment_1_G_92_2139.Models.Product
+
+<h2>Add New Product</h2>
+
+<!-- Show validation errors -->
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CategoryId" class="control-label">Category</label>
+        <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId">
+            <option value="">-- Please Select a Category --</option>
+        </select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+
+
+    <div class="form-group">
+        <label asp-for="Price" class="control-label"></label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="QuantityInStock" class="control-label"></label>
+        <input asp-for="QuantityInStock" class="form-control" />
+        <span asp-validation-for="QuantityInStock" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="LowStockThreshold" class="control-label"></label>
+        <input asp-for="LowStockThreshold" class="form-control" />
+        <span asp-validation-for="LowStockThreshold" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

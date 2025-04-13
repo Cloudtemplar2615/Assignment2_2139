@@ -1,0 +1,28 @@
+@page
+@model Assignment_1_G_92_2139.Areas.Identity.Pages.Account.ProfileModel
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<h2>My Profile</h2>
+
+<form method="post">
+    <div class="form-group mb-3">
+        <label asp-for="Input.FullName"></label>
+        <input asp-for="Input.FullName" class="form-control" />
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="Input.ContactNumber"></label>
+        <input asp-for="Input.ContactNumber" class="form-control" />
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="Input.PreferredCategories"></label>
+        <input asp-for="Input.PreferredCategories" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>
+
+@if (Model.StatusMessage != null)
+{
+    <div class="alert alert-success mt-3">@Model.StatusMessage</div>
+}

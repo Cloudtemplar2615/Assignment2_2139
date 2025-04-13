@@ -1,0 +1,37 @@
+@model Assignment_1_G_92_2139.Models.Order
+
+@{
+    ViewData["Title"] = "Order Confirmation";
+}
+
+<h2 class="mb-3 text-success">Order Placed Successfully!</h2>
+
+<p>Thank you, <strong>@Model.GuestName</strong>! Your order has been placed successfully and a confirmation has been sent to <strong>@Model.GuestEmail</strong>.</p>
+
+<hr />
+
+<h4>Order Summary</h4>
+<table class="table table-bordered mt-3">
+    <thead>
+    <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Price (each)</th>
+        <th>Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.OrderItems)
+    {
+        <tr>
+            <td>@item.Product.Name</td>
+            <td>@item.Quantity</td>
+            <td>$@item.Price</td>
+            <td>$@(item.Quantity * item.Price)</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<a asp-action="Create" class="btn btn-primary">Place Another Order</a>
+<a asp-controller="Products" asp-action="Index" class="btn btn-secondary">View Products</a>

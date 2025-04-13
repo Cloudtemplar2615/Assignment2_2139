@@ -1,0 +1,92 @@
+@{
+    ViewData["Title"] = "Place an Order";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form id="orderForm" asp-action="Create" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group mb-3">
+        <label for="guestName" class="form-label">Guest Name</label>
+        <input name="guestName" class="form-control" required value="@ViewBag.GuestName" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="guestEmail" class="form-label">Guest Email</label>
+        <input name="guestEmail" type="email" class="form-control" required value="@ViewBag.GuestEmail" />
+    </div>
+
+    <h4>Select Products</h4>
+    <div id="productList">
+        <div class="product-entry border p-3 mb-3">
+            <div class="form-group mb-2">
+                <label>Product</label>
+                <select name="productIds" class="form-control">
+                    @foreach (var item in ViewBag.ProductList as List<SelectListItem>)
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group mb-2">
+                <label>Quantity</label>
+                <input type="number" name="quantities" class="form-control" value="1" required />
+            </div>
+            <button type="button" class="btn btn-danger remove-product">Remove</button>
+        </div>
+    </div>
+
+    <button type="button" id="addProduct" class="btn btn-secondary mb-3">Add Another Product</button>
+    <br />
+    <button type="submit" class="btn btn-primary">Place Order</button>
+</form>
+
+<div id="orderLoading" style="display:none;" class="text-center mt-3">
+    <div class="spinner-border text-success" role="status">
+        <span class="visually-hidden">Submitting...</span>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#orderForm").submit(function (e) {
+                e.preventDefault();
+                const form = $(this);
+                const data = form.serialize();
+
+                $("#orderLoading").show(); 
+
+                $.post(form.attr("action"), data)
+                    .done(function (res) {
+                        window.location.href = `/Orders/Confirmation/${res.orderId}`;
+                    })
+                    .fail(function (xhr) {
+                        $(".alert-danger").remove();
+                        const message = xhr.responseText || "Something went wrong.";
+                        form.prepend(`<div class="alert alert-danger">${message}</div>`);
+                    })
+                    .always(function () {
+                        $("#orderLoading").hide(); 
+                    });
+            });
+
+            $("#addProduct").click(function () {
+                const entry = $(".product-entry").first().clone();
+                entry.find("input").val("1");
+                $("#productList").append(entry);
+            });
+
+            $(document).on("click", ".remove-product", function () {
+                if ($(".product-entry").length > 1) {
+                    $(this).closest(".product-entry").remove();
+                }
+            });
+        });
+    </script>
+}
+
+
+

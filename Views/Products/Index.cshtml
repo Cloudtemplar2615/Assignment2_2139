@@ -1,0 +1,70 @@
+@model IEnumerable<Assignment_1_G_92_2139.Models.Product>
+
+<h2>Products</h2>
+
+@if (User.IsInRole("Admin"))
+{
+    <a asp-action="Create" class="btn btn-success mb-3">Add Product</a>
+}
+
+
+<input type="text" id="searchBox" class="form-control mb-3" placeholder="Search products..." />
+
+<div id="loading" style="display:none;" class="text-center mb-3">
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+
+<!-- Product List Section -->
+<div id="productResults">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Low Stock Threshold</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.Category.Name</td>
+                <td>@product.Price</td>
+                <td>@product.QuantityInStock</td>
+                <td>@product.LowStockThreshold</td>
+                <td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@product.ProductId" class="btn btn-sm btn-warning">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@product.ProductId" class="btn btn-sm btn-danger">Delete</a>
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#searchBox").on("keyup", function () {
+                const query = $(this).val();
+                $("#loading").show(); 
+
+                $.get("/Products/Search", { query: query }, function (data) {
+                    $("#productResults").html(data);
+                }).always(function () {
+                    $("#loading").hide(); 
+                });
+            });
+        });
+    </script>
+}
