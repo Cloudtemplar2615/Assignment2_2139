@@ -27,8 +27,7 @@ jobs:
         run: dotnet build ./Assignment_1_G-92_2139.csproj --configuration Release
 
       - name: Publish
-        run: dotnet publish ./Assignment_1_G-92_2139.csproj --configuration Release --output ./publish_output
-
+        run: dotnet publish Assignment_1_G-92_2139.csproj --configuration Release --output ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -60,10 +59,10 @@ jobs:
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_2B2260D376F24EB1A2CD68FEE8D38EEE }}
 
       - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v3
+        uses: azure/webapps-deploy@v2
         with:
-          app-name: 'Assignment2-Inventory'
-          slot-name: 'Production'
-          package: .
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          slot-name: production
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
+          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
           
