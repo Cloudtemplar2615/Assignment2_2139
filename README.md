@@ -32,7 +32,7 @@ Technologies Used
 Setup Instructions
 1. Clone the repo:
    ```bash
-   git clone https://github.com/yourusername/assignment2-inventory.git
+   git clone https://github.com/Cloudtemplar2615/assignment2-inventory.git
 
  Deployment & Configuration Status Report
 Student Name: Fredrich Tan
